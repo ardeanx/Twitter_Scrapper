@@ -11,6 +11,7 @@ def index():
     tweets = models.get_all_tweets()
     return render_template('index.html', tweets=tweets)
 
+# Endpoint Scrape → Endpoint ini maksudnya routing sistem untuk cek + event apakah sudah di tekan/berjalan atau belum
 @app.route('/scrape', methods=['POST'])
 def new_scrape():
     data = scrape_twitter()
@@ -27,6 +28,7 @@ def new_scrape():
         })
     return redirect(url_for('index'))
 
+# Endpoint download
 @app.route('/download', methods=['GET'])
 def download_csv():
     tweets = models.get_all_tweets()
@@ -38,7 +40,7 @@ def download_csv():
             writer.writerow(row)
     return send_file(csv_file, as_attachment=True)
 
-# Endpoint clear_db seperti sebelumnya
+# Endpoint clear_db
 @app.route('/clear_db', methods=['GET', 'POST'])
 def clear_db():
     if request.method == 'POST':

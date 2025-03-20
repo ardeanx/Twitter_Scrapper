@@ -6,23 +6,23 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import time
 
-def scrape_twitter():
+def scrape_twitter(): #Inisiasi Fungsi 
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    driver.get("https://twitter.com/collegemfs")
+    driver.get("https://twitter.com/collegemfs") # Buka Target yang mau di Scrape
     
-    time.sleep(5)  # Tunggu halaman termuat
+    time.sleep(5)  # Tunggu halaman loading
 
     tweets_data = []
     tweet_set = set()
     scroll_attempts = 0
-    max_scrolls = 50  # Meningkatkan batas scroll untuk mendapatkan lebih banyak data
+    max_scrolls = 50  # Percobaan maksimal untuk scroll halaman. 50 brarti 50x scroll kbawah
     
-    while len(tweets_data) < 100 and scroll_attempts < max_scrolls:
+    while len(tweets_data) < 100 and scroll_attempts < max_scrolls: # Pembangun fungsi → Maks 100 Data
         tweets = driver.find_elements(By.XPATH, '//article[@data-testid="tweet"]')
         for tweet in tweets:
             try:
@@ -35,7 +35,7 @@ def scrape_twitter():
                 content_element = tweet.find_element(By.XPATH, './/div[@lang]')
                 content = content_element.text  
 
-                # Ambil emoji (dari <img alt="😊">)
+                # Ambil emoji (dari <img alt="😊">) → Tapi kyanya tara jadi ini 🤔
                 emoji_elements = content_element.find_elements(By.XPATH, './/img[@alt]')
                 emojis = [emoji.get_attribute("alt") for emoji in emoji_elements]
 

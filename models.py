@@ -1,9 +1,9 @@
 import sqlite3
 from datetime import datetime
 
-DB_PATH = 'instance/main.db'
+DB_PATH = 'instance/main.db' # PATH ke database → Ini pake SQLite
 
-def init_db():
+def init_db(): # Inisiasi Fungsi model
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('''
@@ -23,7 +23,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-def insert_tweet(data):
+def insert_tweet(data): # Fungsi untuk memasukkan data ke database
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     # Cek apakah tweet sudah ada berdasarkan tweet_text
