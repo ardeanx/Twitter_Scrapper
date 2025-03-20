@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Twitter Scraper (@collegemfs)</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <!-- Inline CSS -->
+  <style>
+    /* Reset dan gaya umum */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    header {
+      background-color: #0084b4;
+      color: #fff;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    header h2 {
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+    .container {
+      max-width: 1500px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .buttons {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .buttons form,
+    .buttons a {
+      display: inline-block;
+      margin: 0 0.5rem;
+    }
+    button, .btn {
+      padding: 0.8rem 1.5rem;
+      background-color: #0084b4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    button:hover, .btn:hover {
+      background-color: #006f8e;
+    }
+    .table-container {
+      overflow-x: auto;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+    thead {
+      background-color: #e8f4fa;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.8rem;
+      text-align: center;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    img {
+      max-width: 80px;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    footer {
+      background-color: #0084b4;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Twitter Scraper</h1>
+    <h2>(@collegemfs)</h2>
+  </header>
+
+  <!-- Konten Utama -->
+  <div class="container">
+    <!-- Tombol Aksi -->
+    <div class="buttons">
+      <!-- Tombol New Scrape menggunakan form POST -->
+      <form action="{{ url_for('new_scrape') }}" method="post">
+        <button type="submit">New Scrape</button>
+      </form>
+      <!-- Tombol Refresh Data hanya reload halaman -->
+      <form action="{{ url_for('index') }}" method="get">
+        <button type="submit">Refresh Data</button>
+      </form>
+      <!-- Tambahkan tombol Clear Database -->
+    <form action="{{ url_for('clear_db') }}" method="get">
+      <button type="submit" style="color: white; background: red;" >Delete Data</button>
+    </form>
+      <!-- Tombol Download CSV menggunakan link -->
+      <a href="{{ url_for('download_csv') }}" class="btn">Download CSV</a>
+    </div>
+    
+
+    <!-- Tabel Data -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tweet Text</th>
+            <th>Tweet Image</th>
+            <th>Username</th>
+            <th>Tweet Count</th>
+            <th>Hashtags</th>
+            <th>Mentions</th>
+            <th>Scrape Time</th>
+            <th>Posting Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tweet in tweets %}
+          <tr>
+            <td>{{ tweet[0] }}</td>
+            <td>{{ tweet[1] }}</td>
+            <td>
+              {% if tweet[2] %}
+              <img src="{{ tweet[2] }}" alt="Tweet Image">
+              {% endif %}
+            </td>
+            <td>{{ tweet[3] }}</td>
+            <td>{{ tweet[4] }}</td>
+            <td>{{ tweet[5] }}</td>
+            <td>{{ tweet[6] }}</td>
+            <td>{{ tweet[7] }}</td>
+            <td>{{ tweet[8] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Ardean Bima Saputra. All rights reserved.</p>
+  </footer>
+</body>
+</html>
